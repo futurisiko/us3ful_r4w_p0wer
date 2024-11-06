@@ -31,4 +31,11 @@ Write-Host " "
 
 # Execute the query and output to file
 $ErrorActionPreference = "silentlycontinue"
-$shares | ForEach-Object { $fullpath = $rootPath + $_ ; Get-ChildItem "$fullpath" } | Where-Object { Get-Acl $_.FullName | Select-Object -ExpandProperty Access | Where-Object { $_.IdentityReference -match 'Everyone' } } | ForEach-Object { Write-Host $_.FullName -ForegroundColor green; Get-Acl $_.FullName | Select-Object -ExpandProperty Access | Where-Object { $_.IdentityReference -match 'Everyone' } | Select-Object FileSystemRights, IdentityReference} | FL 2>$null
+$shares | ForEach-Object { $fullpath = $rootPath + $_ ; Get-ChildItem "$fullpath" } | 
+Where-Object { Get-Acl $_.FullName | Select-Object -ExpandProperty Access | 
+    Where-Object { $_.IdentityReference -match 'Everyone' } } | 
+ForEach-Object { Write-Host $_.FullName -ForegroundColor green; Get-Acl $_.FullName | 
+    Select-Object -ExpandProperty Access | 
+    Where-Object { $_.IdentityReference -match 'Everyone' } | 
+    Select-Object FileSystemRights, IdentityReference} | 
+FL 2>$null
